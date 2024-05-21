@@ -1,12 +1,12 @@
 const { Schema, model } = require('mongoose');
 
 const PerfilShema = Schema({
-    usuario: {
+    usuarioId: {
         type: Schema.Types.ObjectId,
         ref: 'usuario',
         required: true,
     },
-    servicio: {
+    servicioId: {
         type: Schema.Types.ObjectId,
         ref: 'servicio',
         required: true,

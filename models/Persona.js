@@ -1,6 +1,6 @@
 const { Schema, model } = require('mongoose');
 
-const ServicioShema = Schema({
+const PersonaShema = Schema({
     nombres: {
         type: String,
         required: true,
@@ -12,11 +12,11 @@ const ServicioShema = Schema({
     email: {
         type: String,
         required: true,
-        unique: true
+        unique: true,
     },
     password: {
         type: String,
-        required: true
+        // required: true
     },
     rol: {
         type: Schema.Types.ObjectId,
@@ -32,9 +32,6 @@ const ServicioShema = Schema({
         type: Date, 
         default: Date.now 
     },
-},{ timestamps: true },
-{
-    collection: 'servicios'
-});
+},{ timestamps: true },);
 
-module.exports = model('servicio', ServicioShema);
+module.exports = model('persona', PersonaShema);
