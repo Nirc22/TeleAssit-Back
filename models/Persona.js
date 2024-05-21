@@ -18,12 +18,12 @@ const PersonaShema = Schema({
         type: String,
         // required: true
     },
-    rol: {
+    rolId: {
         type: Schema.Types.ObjectId,
         ref: 'rol',
         required: true,
     },
-    perfil: {
+    perfilId: {
         type: Schema.Types.ObjectId,
         ref: 'perfil',
         required: true,
