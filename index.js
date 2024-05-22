@@ -11,6 +11,7 @@ dbConnection();
 app.use(express.json());
 
 app.use('/api/rol', require('./routes/Rol'));
+app.use('/api/servicio', require('./routes/Servicio'));
 
 
 
