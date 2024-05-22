@@ -12,6 +12,8 @@ app.use(express.json());
 
 app.use('/api/rol', require('./routes/Rol'));
 app.use('/api/servicio', require('./routes/Servicio'));
+app.use('/api/estado', require('./routes/Estado'));
+// app.use('/api/estado', require('./routes/Estado'));
 
 
 

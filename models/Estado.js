@@ -9,6 +9,11 @@ const EstadoShema = Schema({
         type: String,
         required: true,
     },
+    tipo: {
+        type: String,
+        required: true,
+        enum: ['queja', 'usuario'], // Añade aquí otros tipos si es necesario
+    },
 });
 // {
 //     collection: 'estados'
