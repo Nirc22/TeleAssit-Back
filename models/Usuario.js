@@ -21,6 +21,7 @@ const UsuarioShema = Schema({
     rolId: {
         type: Schema.Types.ObjectId,
         ref: 'rol',
+        default: '664d1f00dda2a4608c0eef8a',
         required: true,
     },
     servicioId:{

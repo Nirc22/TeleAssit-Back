@@ -14,7 +14,7 @@ app.use('/api/rol', require('./routes/Rol'));
 app.use('/api/servicio', require('./routes/Servicio'));
 app.use('/api/estado', require('./routes/Estado'));
 app.use('/api/usuario', require('./routes/Usuario'));
-app.use('/api/perfil', require('./routes/Perfil'));
+app.use('/api/empleado', require('./routes/Empleado'));
 // app.use('/api/estado', require('./routes/Estado'));
 
 

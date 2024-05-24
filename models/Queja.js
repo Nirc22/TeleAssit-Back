@@ -3,7 +3,7 @@ const { Schema, model } = require('mongoose');
 const QuejaSchema = Schema({
     usuarioId: {
         type: Schema.Types.ObjectId,
-        ref: 'persona',
+        ref: 'usuario',
         required: true,
     },
     titulo: {
@@ -27,7 +27,7 @@ const QuejaSchema = Schema({
     },
     trabajadorId:{
         type: Schema.Types.ObjectId,
-        ref: 'persona',
+        ref: 'empleado',
         required: true,
     },
     
