@@ -15,6 +15,7 @@ app.use('/api/servicio', require('./routes/Servicio'));
 app.use('/api/estado', require('./routes/Estado'));
 app.use('/api/usuario', require('./routes/Usuario'));
 app.use('/api/empleado', require('./routes/Empleado'));
+app.use('/api/queja', require('./routes/Queja'));
 // app.use('/api/estado', require('./routes/Estado'));
 
 

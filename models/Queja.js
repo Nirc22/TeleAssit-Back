@@ -17,6 +17,7 @@ const QuejaSchema = Schema({
     estadoId:{
         type: Schema.Types.ObjectId,
         ref: 'estado',
+        default: '664e19f0a93051fb6984493a',
         required: true,
     },
     calificacion:{
@@ -25,10 +26,10 @@ const QuejaSchema = Schema({
     solucionDesc:{
         type: String,
     },
-    trabajadorId:{
+    empleadoId:{
         type: Schema.Types.ObjectId,
         ref: 'empleado',
-        required: true,
+        // required: true,
     },
     
 },{ timestamps: true },);
