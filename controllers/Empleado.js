@@ -1,6 +1,7 @@
 const Empleado = require('../models/Empleado');
+const {sendActivationEmail} = require('../middlewares/generar-correo');
 
-const crearEmpleado = async(req, resp) =>{
+const crearEmpleado = async (req, resp) => {
     const empleado = await Empleado(req.body);
     try {
         const empleadoSave = await empleado.save();
@@ -18,7 +19,7 @@ const crearEmpleado = async(req, resp) =>{
     }
 };
 
-const getEmpleados = async(req, resp) =>{
+const getEmpleados = async (req, resp) => {
     try {
         const empleados = await Empleado.find().populate('rolId').populate('estadoId');
         return resp.status(200).json({
@@ -35,17 +36,17 @@ const getEmpleados = async(req, resp) =>{
     }
 };
 
-const updateEmpleado = async(req, resp) =>{
+const updateEmpleado = async (req, resp) => {
     const empleadoId = req.params.id;
     try {
         const empleado = await Empleado.findById(empleadoId);
-        if(!empleado){
+        if (!empleado) {
             return resp.status(404).json({
                 ok: false,
                 msg: 'El Id no coincide con ningún elemento de la BD',
             });
         }
-        const empleadoActualizado = await Empleado.findByIdAndUpdate(empleadoId, req.body, {new: true});
+        const empleadoActualizado = await Empleado.findByIdAndUpdate(empleadoId, req.body, { new: true });
         return resp.status(200).json({
             ok: true,
             msg: 'Empleado actualizado',
@@ -60,11 +61,11 @@ const updateEmpleado = async(req, resp) =>{
     }
 };
 
-const deleteEmpleado = async(req, resp) =>{
+const deleteEmpleado = async (req, resp) => {
     const empleadoId = req.params.id;
     try {
         const empleado = await Empleado.findById(empleadoId);
-        if(!empleado){
+        if (!empleado) {
             return resp.status(404).json({
                 ok: false,
                 msg: 'El Id no coincide con ningún elemento de la BD',
@@ -90,4 +91,5 @@ module.exports = {
     getEmpleados,
     updateEmpleado,
     deleteEmpleado,
+    sendActivationEmail,
 }
