@@ -1,4 +1,5 @@
 const Queja = require('../models/Queja');
+const Rol = require('../models/Rol');
 
 const crearQueja = async(req, resp) =>{
     const queja = await Queja(req.body);
@@ -49,6 +50,45 @@ const getQuejas = async(req, resp) =>{
 const updateQueja = async(req, resp) =>{
     const quejaId = req.params.id;
     try {
+
+        const update = req.body;
+        const usuario = req.usuario; // Asumimos que el middleware validarJWT agrega el usuario al request
+
+        // Si se intenta actualizar campos restringidos, verificar el rol del usuario
+        if (update.estadoId || update.solucionDesc || update.empleadoId) {
+            const rol = await Rol.findById(usuario.rolId);
+            if (!rol) {
+                return resp.status(403).json({
+                    ok: false,
+                    msg: 'Rol no encontrado'
+                });
+            }
+
+            if (rol.nombre !== 'Empleado' && rol.nombre !== 'Admin') {
+                return resp.status(403).json({
+                    ok: false,
+                    msg: 'Solo los usuarios con el rol de Empleado o Admin pueden actualizar estos campos'
+                });
+            }
+        }
+
+        if (update.titulo || update.descripcion || update.calificacion) {
+            const rol = await Rol.findById(usuario.rolId);
+            if (!rol) {
+                return resp.status(403).json({
+                    ok: false,
+                    msg: 'Rol no encontrado'
+                });
+            }
+
+            if (rol.nombre !== 'Usuario') {
+                return resp.status(403).json({
+                    ok: false,
+                    msg: 'Solo los usuarios con el rol de Usuario pueden actualizar estos campos'
+                });
+            }
+        }
+
         const queja = await Queja.findById(quejaId);
         if(!queja){
             return resp.status(404).json({

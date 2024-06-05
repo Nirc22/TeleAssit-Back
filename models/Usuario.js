@@ -49,7 +49,7 @@ const UsuarioShema = Schema({
                 // return (this.rolNombre === 'Usuario' && value && value.length > 0) || (this.rolNombre !== 'Usuario' && (!value || value.length === 0)); // Campo solo puede ser llenado si el rol es 'Usuario'
                 return (this.rolNombre === 'Usuario' && value);// || (this.rolNombre !== 'Usuario' && (!value || value.length === 0)); // Campo solo puede ser llenado si el rol es 'Usuario'
             },
-            message: 'El campo quejas solo puede ser llenado por usuarios con el rol de Usuario.',
+            message: 'El campo quejas solo lo pueden tener usuarios con el rol de Usuario.',
         },
     }],
     quejasAtendidas: [{
@@ -62,7 +62,7 @@ const UsuarioShema = Schema({
             validator: function (value) {
                 return (this.rolNombre === 'Empleado' && value);// || (this.rolNombre !== 'Empleado' && (!value || value.length === 0)); // Campo solo puede ser llenado si el rol es 'Usuario'
             },
-            message: 'El campo quejas atendidas solo puede ser llenado por usuarios con el rol de Empleado.',
+            message: 'El campo quejas atendidas solo lo pueden tener usuarios con el rol de Empleado.',
         },
     }],
     activo: {

@@ -1,18 +1,42 @@
 const { Router } = require('express');
 const router = Router();
+const { check } = require('express-validator');
 
 const { crearUsuario, getUsuarios, updateUsuario, deleteUsuario, loginUsuario, activarCuenta } = require('../controllers/Usuario');
 
-router.get('/get', getUsuarios);
+const { validarJWT } = require('../middlewares/validar-jwt');
+const { validarRoles } = require('../middlewares/validar-roles');
+const { validarCampos } = require('../middlewares/validar-campos');
 
-router.post('/crear', crearUsuario);
 
-router.put('/update/:id', updateUsuario);
+router.get('/get', validarJWT, validarRoles(['Admin', 'Empleado']), getUsuarios);
 
-router.delete('/delete/:id', deleteUsuario);
+router.post('/crear',
+    validarJWT,
+    [
+        check('nombres', 'Nombres son obligatorios').not().isEmpty().trim(),
+        check('apellidos', 'Apellidos son obligatorio').not().isEmpty().trim(),
+        check('email', 'El email es obligatorio').isEmail(),
+        check('rolId', 'El rol es obligatorio').not().isEmpty(),
+    ],
+    validarCampos,
+    validarRoles(['Admin', 'Empleado']),
+    crearUsuario);
 
-router.post('/login', loginUsuario)
+router.put('/update/:id', 
+    validarJWT,
+    validarRoles(['Admin', 'Empleado']), 
+    updateUsuario);
 
-router.post('/activate/:token', activarCuenta)
+router.delete('/delete/:id', validarJWT, validarRoles(['Admin']), deleteUsuario);
+
+router.post('/login', loginUsuario);
+
+router.post('/activate/:token', 
+    [
+        check('password', 'La contraseña debe tener al menos 6 caracteres').isLength({ min: 6 }),
+    ],
+    validarCampos,
+    activarCuenta);
 
 module.exports = router;

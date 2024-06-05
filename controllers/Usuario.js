@@ -10,6 +10,13 @@ const crearUsuario = async (req, resp) => {
     const usuario = new Usuario(req.body);
     const { nombres, apellidos, email } = req.body;
     try {
+
+        if (await Usuario.findOne({ email })) {//valida si ya existe un usuario en la BD
+            return resp.status(201).json({
+                ok: false,
+                msg: 'Ya existe un usuario registrado con ese email'
+            })
+        }
         const tokenActivacion = jwt.sign({ nombres, apellidos, email }, process.env.SECRET_KEY);
         usuario.tokenActivacion = tokenActivacion;
         const usuarioSave = await usuario.save();
@@ -35,15 +42,15 @@ const activarCuenta = async (req, resp) => {
     const { password } = req.body;
 
     try {
-        if (!password) {
-            return resp.status(400).json({ msg: 'La contraseña es requerida.' });
-        }
+        // if (!password) {//Ya se valida en la ruta
+        //     return resp.status(400).json({ msg: 'La contraseña es requerida.' });
+        // }
 
         const decoded = jwt.verify(req.params.token, process.env.SECRET_KEY);
         const usuario = await Usuario.findOne({ email: decoded.email });
 
-        if(usuario.activo == true){
-            return resp.status(400).json({msg: 'El usuario ya fue activado'});
+        if (usuario.activo == true) {
+            return resp.status(400).json({ msg: 'El usuario ya fue activado anteriormente' });
         }
 
         if (req.params.token != usuario.tokenActivacion) {
@@ -138,6 +145,13 @@ const loginUsuario = async (req, resp = response) => {
 
         let usuario = await Usuario.findOne({ email }).populate('rolId');
 
+        if (usuario.activo === false) {
+            return resp.status(201).json({
+                ok: false,
+                msg: 'Usuario no activo',
+            });
+        }
+
         if (!usuario) {
             return resp.status(201).json({
                 ok: false,
@@ -147,9 +161,9 @@ const loginUsuario = async (req, resp = response) => {
 
         if (usuario) {
             //confirmar contraseña
-            // const validPassword = bcrypt.compareSync(password, usuario.password);
+            const validPassword = bcrypt.compareSync(password, usuario.password);
 
-            if (password != usuario.password) {
+            if (!validPassword) {
                 return resp.status(201).json({
                     ok: false,
                     msg: 'Usuario o contraseña erradas'

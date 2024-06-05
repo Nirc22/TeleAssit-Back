@@ -4,21 +4,35 @@ const router = Router();
 
 const { crearServicio, getServicios, updateServicio, deletServicio } = require('../controllers/Servicio');
 
-router.get('/getServicios', getServicios);
+const { validarJWT } = require('../middlewares/validar-jwt');
+const { validarRoles } = require('../middlewares/validar-roles');
+const { validarCampos } = require('../middlewares/validar-campos');
+
+
+router.get('/get', validarJWT, getServicios);
 
 router.post(
-    '/create', 
-    // [
-    //     check('nombre','El nombre del rol es obligatorio').not().isEmpty(),
-    // ],
-    // validarCampos,
-    // validarJWT,
-    // AdminRole,
+    '/create',
+    validarJWT,
+    [
+        check('nombre', 'El nombre del servicio es obligatorio').not().isEmpty(),
+        check('descripcion', 'La descripción del servicio es obligatoria').not().isEmpty(),
+        check('precio', 'El precio del servicio es obligatorio').not().isEmpty(),
+    ],
+    validarCampos,
+    validarRoles(['Admin']),
     crearServicio
-    );
+);
 
-router.put('/updateServicio/:id', updateServicio);
+router.put('/update/:id', validarJWT,
+    [
+        check('nombre', 'El nombre del servicio es obligatorio').not().isEmpty(),
+        check('descripcion', 'La descripción del servicio es obligatoria').not().isEmpty(),
+        check('precio', 'El precio del servicio es obligatorio').not().isEmpty(),
+    ],
+    validarCampos,
+    validarRoles(['Admin']), updateServicio);
 
-router.delete('/deleteServicio/:id', deletServicio);
+router.delete('/delete/:id', validarJWT, validarRoles(['Admin']), deletServicio);
 
 module.exports = router;
