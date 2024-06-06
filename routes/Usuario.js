@@ -2,7 +2,7 @@ const { Router } = require('express');
 const router = Router();
 const { check } = require('express-validator');
 
-const { crearUsuario, getUsuarios, updateUsuario, deleteUsuario, loginUsuario, activarCuenta } = require('../controllers/Usuario');
+const { crearUsuario, getUsuarios, updateUsuario, deleteUsuario, loginUsuario, activarCuenta, recuperarContrasenia, resetContrasenia } = require('../controllers/Usuario');
 
 const { validarJWT } = require('../middlewares/validar-jwt');
 const { validarRoles } = require('../middlewares/validar-roles');
@@ -37,6 +37,23 @@ router.post('/activate/:token',
         check('password', 'La contraseña debe tener al menos 6 caracteres').isLength({ min: 6 }),
     ],
     validarCampos,
-    activarCuenta);
+    activarCuenta
+);
+
+router.post('/recuperarContrasenia',
+    [
+        check('email','El email es obligatorio').isEmail(),
+    ],
+    validarCampos,
+    recuperarContrasenia,
+);
+
+router.post('/resetContrsenia/:token', 
+    [
+        check('password', 'La contraseña debe tener al menos 6 caracteres').isLength({ min: 6 }),
+    ],
+    validarCampos,
+    resetContrasenia,
+);
 
 module.exports = router;

@@ -13,7 +13,7 @@ const transporter = nodemailer.createTransport({
 
 
 const sendActivationEmail = async (email, tokenActivacion) => {
-    const activationLink = `http://localhost:4001/api/usuario/activate/${tokenActivacion}`;
+    const activationLink = `http://localhost:4001/api/usuario/resetContrsenia/${tokenActivacion}`;
 
     const mailOptions = {
         from: process.env.CORREO,
@@ -25,4 +25,18 @@ const sendActivationEmail = async (email, tokenActivacion) => {
     return transporter.sendMail(mailOptions);
 };
 
-module.exports = {sendActivationEmail};
+const sendCorreoRecuperacion = async(email, tokenRecuperacion) =>{
+    const recuperacionLink = `http://localhost:4001/api/usuario/recuperarContrasenia/${tokenRecuperacion}`
+    const mailOptions = {
+        from: process.env.CORREO,
+        to: email,
+        subject: 'Recuperacion de contraseña',
+        text: `Ingresa al siguiente enlace para recuperar la contraseña: ${recuperacionLink}`,
+    };
+    return transporter.sendMail(mailOptions);
+};
+
+module.exports = {
+    sendActivationEmail,
+    sendCorreoRecuperacion,
+};

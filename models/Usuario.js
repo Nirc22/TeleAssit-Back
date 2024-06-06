@@ -73,7 +73,13 @@ const UsuarioShema = Schema({
     tokenActivacion: {
         type: String,
         // required: true,
-    }
+    },
+    tokenRecuperacion: {
+        type: String,
+    },
+    tokenRecuperacionExpiracion: {
+        type: Date,
+    },
 }, { timestamps: true },);
 
 //Middleware que se ejecuta antes de la validacion del esquema
